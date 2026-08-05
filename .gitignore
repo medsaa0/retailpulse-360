@@ -1,0 +1,40 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environnement Python
+.venv/
+
+# Variables secrètes
+.env
+.env.*
+!.env.example
+
+# Données générées
+data/*
+!data/sample/
+!data/sample/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# VS Code et IDE
+.vscode/
+.idea/
+
+# Windows et macOS
+Thumbs.db
+.DS_Store
+
+# dbt
+target/
+dbt_packages/
+
+# Airflow
+airflow/logs/
+airflow/airflow.db
