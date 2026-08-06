@@ -1,0 +1,48 @@
+﻿project:
+  name: retailpulse-360
+  description: Modern Data Warehouse pour le retail omnicanal marocain
+  country: Morocco
+  business_timezone: Africa/Casablanca
+  technical_timezone: UTC
+  analytics_currency: MAD
+
+warehouse:
+  platform: snowflake
+  database: RETAILPULSE
+  schemas:
+    raw: RAW
+    staging: STAGING
+    intermediate: INTERMEDIATE
+    analytics: ANALYTICS
+    audit: AUDIT
+
+storage:
+  local_platform: minio
+  cloud_platform: aws-s3
+  bucket: retailpulse-raw
+
+orchestration:
+  platform: airflow
+
+transformation:
+  platform: dbt-core
+
+visualization:
+  platform: power-bi
+
+sources:
+  - name: transactional_database
+    type: postgresql
+    frequency: daily
+
+  - name: returns_files
+    type: csv
+    frequency: daily
+
+  - name: inventory_files
+    type: csv
+    frequency: daily
+
+  - name: delivery_api
+    type: rest-api
+    frequency: hourly

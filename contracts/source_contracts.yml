@@ -1,0 +1,287 @@
+﻿version: 1
+
+datasets:
+  - name: customers
+    source: postgresql
+    primary_key:
+      - customer_id
+    load_strategy: incremental
+    contains_personal_data: true
+    columns:
+      - name: customer_id
+        type: string
+        nullable: false
+      - name: first_name
+        type: string
+        nullable: false
+        sensitive: true
+      - name: last_name
+        type: string
+        nullable: false
+        sensitive: true
+      - name: email
+        type: string
+        nullable: true
+        sensitive: true
+      - name: phone
+        type: string
+        nullable: true
+        sensitive: true
+      - name: city
+        type: string
+        nullable: true
+      - name: country
+        type: string
+        nullable: false
+      - name: customer_segment
+        type: string
+        nullable: true
+      - name: created_at
+        type: timestamp
+        nullable: false
+      - name: updated_at
+        type: timestamp
+        nullable: false
+
+  - name: products
+    source: postgresql
+    primary_key:
+      - product_id
+    load_strategy: incremental
+    contains_personal_data: false
+    columns:
+      - name: product_id
+        type: string
+        nullable: false
+      - name: product_name
+        type: string
+        nullable: false
+      - name: category
+        type: string
+        nullable: false
+      - name: subcategory
+        type: string
+        nullable: true
+      - name: brand
+        type: string
+        nullable: true
+      - name: unit_price
+        type: decimal
+        nullable: false
+      - name: unit_cost
+        type: decimal
+        nullable: false
+      - name: active
+        type: boolean
+        nullable: false
+      - name: created_at
+        type: timestamp
+        nullable: false
+      - name: updated_at
+        type: timestamp
+        nullable: false
+
+  - name: stores
+    source: postgresql
+    primary_key:
+      - store_id
+    load_strategy: incremental
+    contains_personal_data: false
+    columns:
+      - name: store_id
+        type: string
+        nullable: false
+      - name: store_name
+        type: string
+        nullable: false
+      - name: city
+        type: string
+        nullable: false
+      - name: region
+        type: string
+        nullable: false
+      - name: opening_date
+        type: date
+        nullable: false
+      - name: active
+        type: boolean
+        nullable: false
+      - name: updated_at
+        type: timestamp
+        nullable: false
+
+  - name: orders
+    source: postgresql
+    primary_key:
+      - order_id
+    load_strategy: incremental
+    contains_personal_data: false
+    columns:
+      - name: order_id
+        type: string
+        nullable: false
+      - name: customer_id
+        type: string
+        nullable: false
+      - name: store_id
+        type: string
+        nullable: true
+      - name: channel
+        type: string
+        nullable: false
+      - name: order_status
+        type: string
+        nullable: false
+      - name: order_date
+        type: timestamp
+        nullable: false
+      - name: currency
+        type: string
+        nullable: false
+      - name: payment_method
+        type: string
+        nullable: false
+      - name: created_at
+        type: timestamp
+        nullable: false
+      - name: updated_at
+        type: timestamp
+        nullable: false
+
+  - name: order_items
+    source: postgresql
+    primary_key:
+      - order_id
+      - order_item_id
+    load_strategy: incremental
+    contains_personal_data: false
+    columns:
+      - name: order_item_id
+        type: string
+        nullable: false
+      - name: order_id
+        type: string
+        nullable: false
+      - name: product_id
+        type: string
+        nullable: false
+      - name: quantity
+        type: integer
+        nullable: false
+      - name: unit_price
+        type: decimal
+        nullable: false
+      - name: unit_cost
+        type: decimal
+        nullable: false
+      - name: discount_percentage
+        type: decimal
+        nullable: false
+      - name: created_at
+        type: timestamp
+        nullable: false
+      - name: updated_at
+        type: timestamp
+        nullable: false
+
+  - name: returns
+    source: csv
+    primary_key:
+      - return_id
+    load_strategy: append
+    contains_personal_data: false
+    columns:
+      - name: return_id
+        type: string
+        nullable: false
+      - name: order_id
+        type: string
+        nullable: false
+      - name: order_item_id
+        type: string
+        nullable: false
+      - name: product_id
+        type: string
+        nullable: false
+      - name: returned_quantity
+        type: integer
+        nullable: false
+      - name: return_reason
+        type: string
+        nullable: false
+      - name: return_status
+        type: string
+        nullable: false
+      - name: refund_amount
+        type: decimal
+        nullable: false
+      - name: return_date
+        type: date
+        nullable: false
+
+  - name: inventory
+    source: csv
+    primary_key:
+      - snapshot_date
+      - store_id
+      - product_id
+    load_strategy: append
+    contains_personal_data: false
+    columns:
+      - name: snapshot_date
+        type: date
+        nullable: false
+      - name: store_id
+        type: string
+        nullable: false
+      - name: product_id
+        type: string
+        nullable: false
+      - name: available_quantity
+        type: integer
+        nullable: false
+      - name: reserved_quantity
+        type: integer
+        nullable: false
+      - name: damaged_quantity
+        type: integer
+        nullable: false
+      - name: reorder_threshold
+        type: integer
+        nullable: false
+
+  - name: deliveries
+    source: rest-api
+    primary_key:
+      - delivery_id
+      - event_timestamp
+    load_strategy: incremental
+    contains_personal_data: false
+    columns:
+      - name: delivery_id
+        type: string
+        nullable: false
+      - name: order_id
+        type: string
+        nullable: false
+      - name: carrier
+        type: string
+        nullable: false
+      - name: delivery_status
+        type: string
+        nullable: false
+      - name: event_timestamp
+        type: timestamp
+        nullable: false
+      - name: shipping_date
+        type: date
+        nullable: true
+      - name: expected_delivery_date
+        type: date
+        nullable: false
+      - name: actual_delivery_date
+        type: date
+        nullable: true
+      - name: destination_city
+        type: string
+        nullable: false
