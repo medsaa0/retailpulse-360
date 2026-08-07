@@ -38,3 +38,12 @@ dbt_packages/
 # Airflow
 airflow/logs/
 airflow/airflow.db
+
+# Generated external source data
+source_data/returns/*.csv
+source_data/inventory/*.csv
+source_data/deliveries/*.json
+
+!source_data/returns/.gitkeep
+!source_data/inventory/.gitkeep
+!source_data/deliveries/.gitkeep
