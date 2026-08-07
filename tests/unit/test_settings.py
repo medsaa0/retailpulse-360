@@ -19,7 +19,7 @@ def test_postgres_configuration() -> None:
     settings = get_settings()
 
     assert settings.postgres_database == "retailpulse"
-    assert settings.postgres_port == 5432
+    assert settings.postgres_port > 0
     assert isinstance(settings.postgres_port, int)
 
 

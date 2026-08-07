@@ -5,10 +5,13 @@ description = "Modern Data Warehouse pour le retail omnicanal"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "faker==40.36.0",
+    "psycopg[binary]>=3.2,<4",
     "pydantic>=2.0",
     "pydantic-settings>=2.0",
     "python-dotenv>=1.0",
     "pyyaml>=6.0",
+    "sqlalchemy>=2.0,<2.1",
     "structlog>=24.0",
 ]
 
