@@ -11,15 +11,17 @@ class Settings(BaseSettings):
     environment: str = "development"
 
     postgres_host: str = "localhost"
-    postgres_port: int = 5432
+    postgres_port: int = 5434
     postgres_database: str = "retailpulse"
     postgres_user: str = "retailpulse"
     postgres_password: str = "retailpulse"
 
-    minio_endpoint: str = "localhost:9000"
-    minio_access_key: str = "minioadmin"
-    minio_secret_key: str = "minioadmin"
+    minio_endpoint: str = "http://127.0.0.1:9002"
+    minio_access_key: str = "retailpulse"
+    minio_secret_key: str = "retailpulse_minio_password"
     minio_bucket: str = "retailpulse-raw"
+
+    delivery_api_base_url: str = "http://127.0.0.1:8002"
 
     model_config = SettingsConfigDict(
         env_file=".env",
