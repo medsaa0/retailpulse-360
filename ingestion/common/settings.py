@@ -1,4 +1,4 @@
-"""Configuration centrale du projet RetailPulse 360."""
+﻿"""Configuration centrale du projet RetailPulse 360."""
 
 from functools import lru_cache
 
@@ -22,6 +22,15 @@ class Settings(BaseSettings):
     minio_bucket: str = "retailpulse-raw"
 
     delivery_api_base_url: str = "http://127.0.0.1:8002"
+
+    snowflake_account: str = "NZGYBYT-LF06500"
+    snowflake_user: str = "MOHAS0"
+    snowflake_password: str = "Mohammedsa1010@"
+    snowflake_authenticator: str = "snowflake"
+    snowflake_role: str = "SYSADMIN"
+    snowflake_warehouse: str = "RETAILPULSE_WH"
+    snowflake_database: str = "RETAILPULSE"
+    snowflake_schema: str = "RAW"
 
     model_config = SettingsConfigDict(
         env_file=".env",
