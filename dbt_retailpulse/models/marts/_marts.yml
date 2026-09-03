@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: dim_customer
+    columns:
+      - name: customer_key
+        tests: [not_null, unique]
+
+  - name: dim_product
+    columns:
+      - name: product_key
+        tests: [not_null, unique]
+
+  - name: fct_orders
+    columns:
+      - name: order_key
+        tests: [not_null, unique]
+      - name: gross_revenue
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+  - name: fct_order_items
+    columns:
+      - name: order_item_key
+        tests: [not_null, unique]

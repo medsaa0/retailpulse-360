@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: raw
+    database: RETAILPULSE
+    schema: RAW
+    tables:
+      - name: customers_raw
+      - name: products_raw
+      - name: stores_raw
+      - name: orders_raw
+      - name: order_items_raw
+      - name: returns_raw
+      - name: inventory_raw
+      - name: deliveries_raw

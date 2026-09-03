@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: stg_customers
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]
+
+  - name: stg_products
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+
+  - name: stg_stores
+    columns:
+      - name: store_id
+        tests: [not_null, unique]
+
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: store_id
+        tests:
+          - relationships:
+              to: ref('stg_stores')
+              field: store_id
+      - name: channel
+        tests:
+          - accepted_values:
+              values: ['WEB', 'MOBILE', 'STORE', 'CALL_CENTER']
+
+  - name: stg_order_items
+    columns:
+      - name: order_id
+        tests:
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: product_id
+        tests:
+          - relationships:
+              to: ref('stg_products')
+              field: product_id
+      - name: quantity
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 1
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [order_id, order_item_id]
+
+  - name: stg_returns
+    columns:
+      - name: return_reason
+        tests:
+          - accepted_values:
+              values: ['DAMAGED_PRODUCT', 'WRONG_PRODUCT', 'CUSTOMER_CHANGED_MIND',
+                        'SIZE_OR_COMPATIBILITY', 'DELIVERY_DELAY', 'OTHER']
+
+  - name: stg_deliveries
+    columns:
+      - name: delivery_status
+        tests:
+          - accepted_values:
+              values: ['CREATED', 'PICKED_UP', 'IN_TRANSIT', 'OUT_FOR_DELIVERY',
+                        'DELIVERED', 'FAILED', 'RETURNED']
