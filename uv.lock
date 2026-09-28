@@ -1683,6 +1683,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "boto3" },
+    { name = "cryptography" },
     { name = "faker" },
     { name = "fastapi" },
     { name = "polars" },
@@ -1711,6 +1712,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "boto3", specifier = ">=1.43.67" },
+    { name = "cryptography", specifier = ">=50.0.0" },
     { name = "faker", specifier = "==40.36.0" },
     { name = "fastapi", specifier = ">=0.141.1" },
     { name = "polars", specifier = ">=1.43.2" },

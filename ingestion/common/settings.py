@@ -31,6 +31,10 @@ class Settings(BaseSettings):
     snowflake_warehouse: str = "RETAILPULSE_WH"
     snowflake_database: str = "RETAILPULSE"
     snowflake_schema: str = "RAW"
+    snowflake_private_key_path: str = ""
+
+    
+
 
     model_config = SettingsConfigDict(
         env_file=".env",

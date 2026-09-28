@@ -85,15 +85,21 @@ def download_object(
     object_key: str,
     temporary_root: Path,
 ) -> Path:
-    """Télécharger un objet MinIO dans un dossier temporaire."""
+    """Télécharger un objet MinIO dans un dossier temporaire.
 
-    relative_path = PurePosixPath(
+    Le nom de fichier local est aplati et assaini pour éviter les
+    caractères spéciaux (=, :, etc.) qui posent problème avec les URI
+    file:// sous Windows lors du PUT vers Snowflake.
+    """
+
+    safe_name = (
         object_key
+        .replace("/", "__")
+        .replace("=", "-")
+        .replace(":", "-")
     )
 
-    local_path = temporary_root.joinpath(
-        *relative_path.parts
-    )
+    local_path = temporary_root / safe_name
 
     local_path.parent.mkdir(
         parents=True,
@@ -107,7 +113,6 @@ def download_object(
     )
 
     return local_path
-
 
 def stage_location(
     object_key: str,
@@ -306,16 +311,13 @@ def load_one_object(
         temporary_root,
     )
 
-    stage_directory, filename = (
-        stage_location(
-            object_key
-        )
+    stage_directory = (
+        f"@{STAGE_NAME}/"
+        f"{PurePosixPath(object_key).parent.as_posix()}/"
     )
+    filename = local_path.name
 
-    stage_file = (
-        f"{stage_directory}{filename}"
-    )
-
+    stage_file = f"{stage_directory}{filename}"
     local_uri = (
         local_path.resolve().as_uri()
     )

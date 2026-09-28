@@ -5,7 +5,9 @@ from __future__ import annotations
 from datetime import datetime
 
 import polars as pl
-from sqlalchemy import URL, create_engine, text
+
+from sqlalchemy import create_engine, text
+from sqlalchemy.engine import URL
 
 from ingestion.common.settings import get_settings
 
@@ -33,7 +35,7 @@ def extract_table(
     settings = get_settings()
 
     database_url = URL.create(
-        drivername="postgresql+psycopg",
+        drivername="postgresql+psycopg2",
         username=settings.postgres_user,
         password=settings.postgres_password,
         host=settings.postgres_host,
