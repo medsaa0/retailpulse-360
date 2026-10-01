@@ -6,8 +6,8 @@ from datetime import datetime, timedelta
 
 from airflow.models.dag import DAG
 from airflow.operators.bash import BashOperator
-from airflow.operators.python import PythonOperator
 from airflow.operators.empty import EmptyOperator
+from airflow.operators.python import PythonOperator
 
 PROJECT_DIR = "/opt/airflow/project"
 DBT_DIR = f"{PROJECT_DIR}/dbt_retailpulse"
@@ -84,23 +84,31 @@ with DAG(
     )
 
     dbt_snapshot = BashOperator(
-        task_id="dbt_snapshot",
-        bash_command=f"cd {DBT_DIR} && dbt snapshot",
+    task_id="dbt_snapshot",
+    bash_command=f"cd {DBT_DIR} && dbt snapshot --profiles-dir /opt/airflow/project/dbt_profiles",
     )
 
     dbt_run_staging = BashOperator(
-        task_id="dbt_run_staging",
-        bash_command=f"cd {DBT_DIR} && dbt run --select staging",
+    task_id="dbt_run_staging",
+    bash_command=(
+              f"cd {DBT_DIR} && "
+              "dbt run --select staging "
+              "--profiles-dir /opt/airflow/project/dbt_profiles"
+              ),
     )
 
     dbt_run_marts = BashOperator(
-        task_id="dbt_run_marts",
-        bash_command=f"cd {DBT_DIR} && dbt run --select marts",
+    task_id="dbt_run_marts",
+    bash_command=(
+       f"cd {DBT_DIR} && "
+       "dbt run --select marts "
+       "--profiles-dir /opt/airflow/project/dbt_profiles"
+       ),
     )
 
     dbt_test = BashOperator(
-        task_id="dbt_test",
-        bash_command=f"cd {DBT_DIR} && dbt test",
+    task_id="dbt_test",
+    bash_command=f"cd {DBT_DIR} && dbt test --profiles-dir /opt/airflow/project/dbt_profiles",
     )
 
     reconcile_counts = BashOperator(

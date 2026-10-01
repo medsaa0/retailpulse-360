@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import datetime
 
 import polars as pl
-
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import URL
 

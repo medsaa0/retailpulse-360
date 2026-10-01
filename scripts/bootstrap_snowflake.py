@@ -31,11 +31,7 @@ def main() -> None:
                 remove_comments=True,
             )
 
-            statement_count = 0
-
-            for cursor in cursors:
-                statement_count += 1
-
+            for statement_count, cursor in enumerate(cursors, start=1):
                 print(
                     "[OK] statement "
                     f"{statement_count} "

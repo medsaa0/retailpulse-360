@@ -49,3 +49,6 @@ source_data/deliveries/*.json
 !source_data/deliveries/.gitkeep
 
 snowflake_rsa_key.p8
+
+
+dbt_profiles/
