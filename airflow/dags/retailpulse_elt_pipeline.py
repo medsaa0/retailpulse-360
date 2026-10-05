@@ -110,6 +110,10 @@ with DAG(
     task_id="dbt_test",
     bash_command=f"cd {DBT_DIR} && dbt test --profiles-dir /opt/airflow/project/dbt_profiles",
     )
+    record_data_quality = BashOperator(
+    task_id="record_data_quality",
+    bash_command=f"cd {PROJECT_DIR} && python -m scripts.record_data_quality",
+    )
 
     reconcile_counts = BashOperator(
         task_id="reconcile_counts",
@@ -118,14 +122,16 @@ with DAG(
 
     pipeline_success = EmptyOperator(task_id="pipeline_success")
 
+
     (
-        check_sources
-        >> extract_and_upload_to_minio
-        >> load_snowflake_raw
-        >> dbt_run_staging
-        >> dbt_snapshot
-        >> dbt_run_marts
-        >> dbt_test
-        >> reconcile_counts
-        >> pipeline_success
+    check_sources
+    >> extract_and_upload_to_minio
+    >> load_snowflake_raw
+    >> dbt_run_staging
+    >> dbt_snapshot
+    >> dbt_run_marts
+    >> dbt_test
+    >> record_data_quality
+    >> reconcile_counts
+    >> pipeline_success
     )
